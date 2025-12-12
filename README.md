@@ -31,7 +31,7 @@ Initially, we focused on complex checks like identifying 2x2 "Quad" structures. 
 Python is naturally slow for this type of recursion. To achieve tournament-level performance, we implemented several aggressive optimizations:
 
 ### 1. Iterative Deepening & Alpha-Beta
-Instead of a fixed depth, we use **IDDFS**. The agent searches Depth 1, then 2, then 3... If the 1.86s timer (safety buffer) expires, it immediately returns the best move from the last fully completed depth. This ensures we **never** timeout.
+Instead of a fixed depth, we use **IDDFS**. The agent searches Depth 1, then 2, then 3... If the 1.92s timer (safety buffer) expires, it immediately returns the best move from the last fully completed depth. This ensures we **never** timeout.
 
 ### 2. Transposition Tables
 We implemented a hash map to cache evaluated board states. If we encounter a position we analyzed 2 seconds ago (via a different move order), we retrieve the score instantly. This effectively turns our search tree into a graph.
