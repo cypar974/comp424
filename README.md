@@ -1,78 +1,56 @@
 # Monolith: The Unbreakable Ataxx Agent 🗿
 
-"It doesn't just play. It builds."
+**"Depth Beats Heuristic."**
 
-## Monolith is a highly optimized Ataxx agent developed for the COMP 424 Final Project. It represents the culmination of genetic algorithm training, advanced search optimization, and strategic analysis.
+## Overview
+Monolith is an optimized Ataxx agent developed for the COMP 424 Final Project at McGill University. Our design philosophy was simple: maximize search depth within the 2-second time limit. By combining **Iterative Deepening Alpha-Beta search** with **Genetic Algorithm (GA)** tuned weights, Monolith consistently searches 3-5 ply deep while avoiding timeouts.
 
-## Performance Highlights
+## 🏆 Performance Analysis
 
-97.5% Win Rate vs. Hard-Coded Heuristics ("Internet Agent")
+We validated Monolith through 40-game match sets against various baselines and engines. The results confirmed that our prioritization of search speed over complex heuristics was the correct approach.
 
-72.5% Win Rate vs. Depth 2 Alpha-Beta Agents
+* **100% Win Rate** vs. Hard-Mode Online Ataxx Engine (OnlineSoloGames).
+* **100% Win Rate** vs. Random and MCTS Agents.
+* **100% Win Rate** vs. Classmate Agents (tested against 5 different agents).
+* **97.5% Win Rate** vs. Greedy Agent (39-1 record).
+* **Search Depth:** Consistently reaches Depth 4 in average positions and Depth 5 in corner-heavy positions.
 
-Optimized Speed: Custom move generation is ~300% faster than standard helpers.
+## 🧠 The Brain: "The Architect"
 
-Deep Search: Consistently reaches Depth 4-6 in the 2-second time limit.
+Monolith's evaluation function wasn't hard-coded—it was evolved. We utilized a **Genetic Algorithm** over nearly 200 generations of self-play to tune our weights.
 
-## The Brain: "The Architect" Strategy
+### The "Depth Beats Heuristic" Pivot
+Initially, we focused on complex checks like identifying 2x2 "Quad" structures. However, during training, we realized these checks were computationally expensive in Python. We stripped the evaluation function down to four core pillars, allowing the search to go deeper:
+1.  **Material:** Raw piece count.
+2.  **Corner Control:** Highly valued (weights 30-55) for stability.
+3.  **Positional Control:** Central squares were given negative weights (-8 to -30) by the GA, as the agent learned center pieces are vulnerable to multi-directional attacks.
+4.  **Mobility:** Kept simple to avoid bottlenecks.
 
-Monolith's strategy was not hard-coded; it was learned. Over 200 generations of self-play using a genetic algorithm, the agent discovered a counter-intuitive but powerful playstyle:
+## ⚙️ The Body: Technical Optimizations
 
-Structure over Material: Unlike standard agents that greedily capture pieces, Monolith prioritizes 2x2 "Quad" formations.
+Python is naturally slow for this type of recursion. To achieve tournament-level performance, we implemented several aggressive optimizations:
 
-Insight: A 2x2 block of friendly pieces is incredibly difficult for an opponent to flip completely. It acts as an anchor for the rest of the game.
+### 1. Iterative Deepening & Alpha-Beta
+Instead of a fixed depth, we use **IDDFS**. The agent searches Depth 1, then 2, then 3... If the 1.86s timer (safety buffer) expires, it immediately returns the best move from the last fully completed depth. This ensures we **never** timeout.
 
-The "Edge Trap": Early training suggested hugging the edges was safe. Monolith eventually rejected this, realizing that edges limit mobility. It learned to control the "inner ring" of the board instead.
+### 2. Transposition Tables
+We implemented a hash map to cache evaluated board states. If we encounter a position we analyzed 2 seconds ago (via a different move order), we retrieve the score instantly. This effectively turns our search tree into a graph.
 
-Mobility is King: The agent places a high value on keeping its options open, ensuring it never gets trapped in a corner.
+### 3. Heuristic Move Ordering
+To maximize Alpha-Beta pruning, we order moves dynamically:
+* **Killer Move Heuristic:** We prioritize moves that caused a cutoff at the same depth in previous searches.
+* **History Heuristic:** We track which moves have historically been successful across the entire game tree.
 
-Genetic Evolution Stats
+### 4. Vectorization & Tuple Arithmetic
+We bypassed the provided helper library for critical operations. By using **NumPy** for board scanning and replacing object overhead with **tuple arithmetic**, we increased our thinking speed by roughly **300%**.
 
-Generation 1: Random flailing.
+## 📂 Project Structure
 
-Generation 6: The "Edge Hugger" phase (High Edge Weight).
+* `student_agent.py`: The Main Submission. Contains the Monolith class, the optimized custom move generator, IDDFS loop, and the final evolved weights.
+* `train.py`: The Genetic Algorithm engine used to evolve the weights (Selection, Crossover, Mutation).
+* `tournament_runner.py`: A multi-core script used to validate Monolith against classmates and course baselines.
 
-Generation 193: The "Architect" is born. Edge weights drop, Quad weights explode.
+## 👥 Credits
 
-## The Body: Technical Optimizations
-
-Monolith isn't just smart; it's fast. To achieve tournament-level performance in Python, we implemented several critical optimizations:
-
-1. Internal Fast Move Generation
-
-We bypassed the standard helpers.py library to write a custom, vectorized move generator using NumPy.
-
-Result: Move generation time reduced by ~70%.
-
-Impact: This speed boost allows Monolith to search 1-2 ply deeper than opponents using the default helper functions.
-
-2. Iterative Deepening Alpha-Beta
-
-Instead of a fixed depth search, Monolith uses Iterative Deepening.
-
-It searches Depth 1, then Depth 2, then Depth 3...
-
-If the 2-second timer is about to expire, it instantly returns the best move from the last completed depth.
-
-Benefit: It never times out, and it always uses 100% of the available thinking time.
-
-3. Transposition Tables
-
-We cache the results of board states we have already seen.
-
-If the search encounters a board position it analyzed 2 seconds ago (via a different move order), it retrieves the score instantly instead of re-calculating.
-
-## Project Structure
-
-student_agent.py: The Main Submission. Contains the Monolith class, the optimized move generator, and the learned weights.
-
-train.py: The Genetic Algorithm engine used to evolve the weights.
-
-trainable_agent.py: A flexible agent wrapper used during the training process.
-
-tournament_runner.py: A multi-core tournament script used to validate Monolith against other agents.
-
-## Credits
-
-Developed by Cyprien, Austin and Emily for COMP 424.
-
+**COMP 424 - Artificial Intelligence**
+Authors: Cyprien Armand, Emily Zhang, Austin Wang
