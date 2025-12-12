@@ -1,0 +1,7 @@
+We have taken this agent from a basic Depth 2 crawler to a Depth 4+ Strategic Monster called "The Architect."
+
+Brain: Optimized overnight with genetic algorithms.
+
+Body: Optimized with custom fast move generation.
+
+Technique: Clean Alpha-Beta search without unstable pruning tricks.

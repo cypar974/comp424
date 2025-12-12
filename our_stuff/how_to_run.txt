@@ -1,0 +1,5 @@
+python simulator.py --player_1 internet_agent --player_2 student_agent --display
+python simulator.py --player_1 student_agent --player_2 greedy_corners_agent --display
+
+
+python simulator.py --player_1 student_agent --player_2 best_agent --display

@@ -1,0 +1,15 @@
+--- Training Started ---
+[00:24:42] Loading 8 boards from 'boards'...
+[00:24:42] Training on 8 boards.
+[00:24:42] Starting Training: 1000 Gens, Pop 8
+[00:24:42] --- Generation 1/1000 ---
+[00:27:26] Gen 1 Finished in 163.6s
+[00:27:26] Gen 1 Best: 0.37 | Weights: [191.2, 126.6, 20.0, 21.4, 15.0, -10.0]
+[00:27:26]    *** NEW BEST FOUND! Saving Checkpoint... ***
+[00:27:26] SAVED checkpoint to best_weights_so_far.txt
+[00:27:26] --- Generation 2/1000 ---
+[00:30:20] Gen 2 Finished in 174.3s
+[00:30:20] Gen 2 Best: 0.73 | Weights: [191.2, 126.6, 27.2, 21.4, 15.0, -10.0]
+[00:30:20]    *** NEW BEST FOUND! Saving Checkpoint... ***
+[00:30:20] SAVED checkpoint to best_weights_so_far.txt
+[00:30:20] --- Generation 3/1000 ---
