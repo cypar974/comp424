@@ -17,7 +17,7 @@ We validated Monolith through 40-game match sets against various baselines and e
 
 ## 🧠 The Brain: "The Architect"
 
-Monolith's evaluation function wasn't hard-coded—it was evolved. We utilized a **Genetic Algorithm** over nearly 200 generations of self-play to tune our weights.
+Monolith's evaluation function wasn't hard-coded—it was evolved. We utilized a **Genetic Algorithm** over nearly 350 generations of self-play to tune our weights.
 
 ### The "Depth Beats Heuristic" Pivot
 Initially, we focused on complex checks like identifying 2x2 "Quad" structures. However, during training, we realized these checks were computationally expensive in Python. We stripped the evaluation function down to four core pillars, allowing the search to go deeper:
