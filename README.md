@@ -1,4 +1,4 @@
-# Monolith: The Unbreakable Ataxx Agent 🗿
+# Monolith: The Unbreakable Ataxx Agent
 
 **"Depth Beats Heuristic."**
 
