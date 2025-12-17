@@ -2,6 +2,8 @@
 
 **"Depth Beats Heuristic."**
 
+🏆 Placed **9th** overall (out of 80 teams)
+
 ## Overview
 Monolith is an optimized Ataxx agent developed for the COMP 424 Final Project at McGill University. Our design philosophy was simple: maximize search depth within the 2-second time limit. By combining **Iterative Deepening Alpha-Beta search** with **Genetic Algorithm (GA)** tuned weights, Monolith consistently searches 3-5 ply deep while avoiding timeouts.
 
